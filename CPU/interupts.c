@@ -1,6 +1,7 @@
 #include "interupts.h"
 #include "../k/methods.h"
 #include "../devices/GPU.h"
+#include "pipe.h"
 void setInteruptHandeler(int n, unsigned int handler)
 {
     idt[n].base_hi = high_16(handler);
@@ -47,6 +48,13 @@ void irsHandler(intData data)
     
 }
 
+void irq_handler(intData data)
+{
+    if (data.intNum >= 40) BOut(0xA0, 0x20);
+    BOut(0x20, 0x20); /* master */
+
+    
+}
 void intInterupts()
 {
 
@@ -82,6 +90,38 @@ void intInterupts()
     setInteruptHandeler(29, (unsigned int) isr29);
     setInteruptHandeler(30, (unsigned int) isr30);
     setInteruptHandeler(31, (unsigned int) isr31);
+
+
+
+    BOut(0x20, 0x11);
+    BOut(0xA0, 0x11);
+    BOut(0x21, 0x20);
+    BOut(0xA1, 0x28);
+    BOut(0x21, 0x04);
+    BOut(0xA1, 0x02);
+    BOut(0x21, 0x01);
+    BOut(0xA1, 0x01);
+    BOut(0x21, 0x0);
+    BOut(0xA1, 0x0);
+
+
+
+    setInteruptHandeler(32, (unsigned int)irq0);
+    setInteruptHandeler(33, (unsigned int)irq1);
+    setInteruptHandeler(34, (unsigned int)irq2);
+    setInteruptHandeler(35, (unsigned int)irq3);
+    setInteruptHandeler(36, (unsigned int)irq4);
+    setInteruptHandeler(37, (unsigned int) irq5);
+    setInteruptHandeler(38, (unsigned int)irq6);
+    setInteruptHandeler(39, (unsigned int)irq7);
+    setInteruptHandeler(40, (unsigned int)irq8);
+    setInteruptHandeler(41, (unsigned int)irq9);
+    setInteruptHandeler(42, (unsigned int)irq10);
+    setInteruptHandeler(43, (unsigned int)irq11);
+    setInteruptHandeler(44, (unsigned int)irq12);
+    setInteruptHandeler(45, (unsigned int)irq13);
+    setInteruptHandeler(46, (unsigned int)irq14);
+    setInteruptHandeler(47, (unsigned int)irq15);
 
     mapIDT();
 

@@ -1,3 +1,3 @@
 
-;int 0x2
+int 0x2
 jmp $
