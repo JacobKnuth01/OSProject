@@ -8,7 +8,7 @@ void setInteruptHandeler(int n, unsigned int handler)
     idt[n].base_lo = low_16(handler);
     idt[n].sel = 0x8;
     idt[n].always0 = 0;
-    idt[n].flags = 0x8E;
+    idt[n].flags = 0xEE;
 
 }
 
