@@ -6,7 +6,8 @@
 char capture = 0;
 int col = -1;
 int row = -1;
-char* text = 0x400008;
+
+int userWordLocation = 0x400008;
 int x = 0;
 void kHandler()
 {
@@ -114,9 +115,12 @@ void kHandler()
 
             //display
             writeChar(ascii, row, col);
-            //save to mem 0x400004
-            text[x] = ascii;
-            text[x+1] = 0x0;
+            //save
+            placeByte(userWordLocation+x, ascii);
+            placeByte(userWordLocation+x+1, 0x0);
+            
+            
+            
 
             //increment unless backspace
             if(scancode != 0x0e)
@@ -126,7 +130,7 @@ void kHandler()
             }
             
 
-            writeString(text, 6, 9);
+            
             
         
             

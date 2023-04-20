@@ -34,7 +34,14 @@ void irsHandler(intData data)
     {
         if (data.intNum == 2)
         {
-            writeString("grave danger", 0, 0);
+           int sp;
+           int bp;
+    
+             __asm__ __volatile__("mov %%esp, %%eax" : "=a" (sp));
+             __asm__ __volatile__("mov %%ebp, %%eax" : "=a" (bp));
+
+            writeString(hexIntToString(sp), 5, 5);
+            writeString(hexIntToString(sp), 6, 5);
         }
         
         writeString("an int was called", 10, 0);
@@ -103,6 +110,13 @@ void customHandler(int num)
     else if (num == 49)
     {
         capture = 1;
+    }
+    else if (num == 50)
+    {
+        capture = 0;
+        place32(0x400000, 0);
+        place32(0x400004, 0);
+
     }
 }
 
@@ -195,6 +209,7 @@ void intInterupts()
     //custom ints
     setInteruptHandeler(48, (unsigned int)printToScreen);
     setInteruptHandeler(49, (unsigned int)turnOnKeyboardCapture);
+    setInteruptHandeler(50, (unsigned int)turnOffKeyboardCapture);
 
     mapIDT();
 

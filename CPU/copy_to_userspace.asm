@@ -4,8 +4,39 @@ global toUserSeg
 global toKernSeg
 global grabByte
 global grab32
+global placeByte
+global place32
 
 
+
+place32:
+    push ebp            
+    mov ebp, esp        
+    mov eax, [ebp+8]; location
+    mov eax, [ebp+12] ;data
+    
+    call toUserSeg
+    mov [eax], eax
+    call toKernSeg
+
+
+    mov esp, ebp        
+    pop ebp             
+    ret 
+placeByte:
+    push ebp            
+    mov ebp, esp        
+    mov eax, [ebp+8]; location
+    mov cl, [ebp+12] ;data
+    
+    call toUserSeg
+    mov [eax], cl
+    call toKernSeg
+
+
+    mov esp, ebp        
+    pop ebp             
+    ret 
 
 grabByte:
     

@@ -11,10 +11,14 @@ extern void toUserSeg();
 extern void toKernSeg();
 extern char grabByte(int spot);
 extern int grab32(int spot);
+extern void placeByte(int spot, char data);
+extern void place32(int spot, int data);
+
 
 void memory_copy(unsigned char *s, unsigned char *d, int limit);
-char singleHexToAcii(char hex);
-char* hexToString(char hex);
 char oneLetterIntLookUp(int i);
 char* intToString(int i);
 char* flipString(char* s, int len);
+
+char oneLetterHexIntLookUp(int i);
+char* hexIntToString(int i);

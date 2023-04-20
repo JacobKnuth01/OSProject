@@ -14,18 +14,42 @@ int main()
     __asm__ __volatile__("int $49");
     
     
-    //check to see if there has been an enter key
-
-    char* input = 0x400008;
-    char found = 0;
-    input[0] = 0;
-    while (!found)
+    
+    int x = 0;
+    char* p = 0x400008;
+    
+    while (1)
     {
+        
+        if (p[x] == 15)
+        {
+            break;
+        }
+        
+        x = x +1;
+
+        if (p[x] == 0)
+        {
+            x = 0;
+        }
+
+
+        
+        
+        
+        
+        
+    }
+    
     
 
-    }
+    
+    
+    __asm__ __volatile__("int $50");
 
-    __asm__ __volatile__("int $2");
+    //__asm__ __volatile__ ("int $48");
+
+   
     
     
 

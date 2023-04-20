@@ -2,13 +2,9 @@
 
 
 
-mov eax, 4
-mov [0x400000], eax
-mov eax, 10
-mov [0x400004], eax
 
-int 49
-jmp $
+
+
 
 
 

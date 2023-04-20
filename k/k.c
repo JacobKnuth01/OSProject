@@ -14,19 +14,11 @@ void initt()
    BOut(0x03D5, 0x20);
    intInterupts();
    asm volatile("sti");
-
-   //asm volatile("jmp 0x5000");
-   copyToUserSpace(0x5000, 0, 0x2000);
-
    
-    switchSegments();
-    switchSegments();
-    switchSegments();
-    switchSegments();
-    switchSegments();
-    switchSegments();
-    switchSegments();
-    switchSegments();
+   
+
+   copyToUserSpace(0x5000, 0x0, 0x2000);
+   switchSegments();
     
    
 

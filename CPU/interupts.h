@@ -94,6 +94,7 @@ extern void irq15();
 
 extern void printToScreen();
 extern void turnOnKeyboardCapture();
+extern void turnOffKeyboardCapture();
 
 
 

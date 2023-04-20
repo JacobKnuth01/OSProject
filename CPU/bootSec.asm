@@ -61,7 +61,7 @@ jmp $
 
 tss:
     dd 0x0
-    dd 0x4000 ;esp0
+    dd 0x90000 ;esp0
     dd 0x10 ;ss0
     TIMES 22 dd 0x0
     dw 0x0
