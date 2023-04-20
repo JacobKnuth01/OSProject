@@ -12,7 +12,7 @@ mov ah, 0x02 ;tell bios that we are going to read from the disk
 mov bx, 0x1000 ; store what is read from the disk in that memory location
 mov dl, dl ; what disk should be loded. We want to load this disk, the bios has automaticallhy filled that register with the correct number
 mov cl, 0x02 ;start on sector 2 (we have already loaded the 1st one, boot sector)
-mov al, 50 ;load that many sectors
+mov al, 60 ;load that many sectors
 mov ch, 0x00 ;what cylender
 mov dh, 0x00 ;head number
 int 0x13 ;run the bios interupt
@@ -43,7 +43,7 @@ mov gs, ax
 
 
 ;set the stack up
-mov ebp, 0x4000
+mov ebp, 0x90000
 mov esp, ebp
 
 ;load TSS
@@ -101,20 +101,20 @@ gdt_data:
 
 U_code: 
     dw 0xFFFF    ; segment length, bits 0-15
-    dw 0x6000    ; segment base, bits 0-15
-    db 0x0      ; seg2ment base, bits 16-23
+    dw 0x0000  ; segment base, bits 0-15
+    db 0x10     ; seg2ment base, bits 16-23
     db 11111010b ; flags (8 bits)
-    db 11000111b ; flags (4 bits) + segment length, bits 16-19
+    db 11000000b ; flags (4 bits) + segment length, bits 16-19
     db 0x00       ; segment base, bits 24-31
 
 ; GDT for data segment. base and length identical to code segment
 ; some flags changed, again, refer to os-dev.pdf
 U_data:
     dw 0xFFFF
-    dw 0x6000
-    db 0x0
+    dw 0x0000
+    db 0x10
     db 11110010b
-    db 11000111b
+    db 11000000b
     db 0x00
 gdt_tss:
     dw TSS_SIZE-1      ; segment length, bits 0-15

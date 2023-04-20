@@ -13,11 +13,28 @@ void initt()
    BOut(0x03D4, 0x0A);
    BOut(0x03D5, 0x20);
    intInterupts();
-  //__asm__ __volatile__("int $2");
-  switchSegments();
-  
-  
-  // __asm__ __volatile__("jmp 0x80000");s
+   asm volatile("sti");
+
+   //asm volatile("jmp 0x5000");
+   copyToUserSpace(0x5000, 0, 0x2000);
+
+   
+    switchSegments();
+    switchSegments();
+    switchSegments();
+    switchSegments();
+    switchSegments();
+    switchSegments();
+    switchSegments();
+    switchSegments();
+    
+   
+
+   
+
+    
+
+   
 
   
  

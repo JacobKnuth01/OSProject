@@ -98,6 +98,10 @@ global irq13
 global irq14
 global irq15
 
+
+global printToScreen
+global turnOnKeyboardCapture
+
 ; 0: Divide By Zero Exception
 isr0:
     cli
@@ -415,3 +419,15 @@ irq15:
 	push byte 15
 	push byte 47
 	jmp irq_common_stub
+
+printToScreen:
+    cli
+	push byte 0
+	push byte 48
+	jmp isr_common_stub
+
+turnOnKeyboardCapture:
+    cli
+	push byte 0
+	push byte 49
+	jmp isr_common_stub

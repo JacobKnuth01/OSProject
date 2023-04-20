@@ -2,6 +2,8 @@
 #include "../k/methods.h"
 #include "../devices/GPU.h"
 #include "pipe.h"
+#include "../devices/keyboard.h"
+
 void setInteruptHandeler(int n, unsigned int handler)
 {
     idt[n].base_hi = high_16(handler);
@@ -23,17 +25,25 @@ void irsHandler(intData data)
 {
     
     
-    char* vm = (char*) 0xb8000;
-    vm[0] = 'A';
-    writeString("an int was called", 10, 0);
-    
-    writeString(intToString(data.intNum), 11, 0);
-    
-    
-    writeString(intToString(data.errCode), 12, 0);
-    while (1)
+    if (data.intNum >= 48)
     {
-        /* code */
+        
+        customHandler(data.intNum);
+    }
+    else
+    {
+        if (data.intNum == 2)
+        {
+            writeString("grave danger", 0, 0);
+        }
+        
+        writeString("an int was called", 10, 0);
+    
+        writeString(intToString(data.intNum), 11, 0);
+    
+    
+        writeString(intToString(data.errCode), 12, 0);
+    
     }
     
 
@@ -44,14 +54,73 @@ void irsHandler(intData data)
     
 
     //__asm__ __volatile__("lidtl (%0)" : : "r" (0x344));
-    //__asm__ __volatile__("int $2");
+    //c;
     
+}
+
+void customHandler(int num)
+{
+    
+    if (num == 48)
+    {   
+        
+        
+        int row = grab32(0x400000);
+        int col = grab32(0x400004);
+        int  w = 0x400008;
+        int x = 0;
+        char* data;
+        while (grabByte(w) != 0)
+        {
+            char c = grabByte(w);
+            data[x] = c;
+            w = w +1;
+            x = x +1;
+        }
+        data[x] = 0;
+        writeString(data, row, col);
+
+        //clear memory location
+
+        toUserSeg();
+        int* pr = 0x400000;
+        int* pc = 0x400004;
+
+        char* word = 0x400008;
+
+        *pr = 0x0;
+        *pc = 0x0;
+        
+        while (x >=0)
+        {
+            word[x] = 0;
+            x = x -1;
+        }
+        toKernSeg();
+    
+
+    }
+    else if (num == 49)
+    {
+        capture = 1;
+    }
 }
 
 void irq_handler(intData data)
 {
     if (data.intNum >= 40) BOut(0xA0, 0x20);
     BOut(0x20, 0x20); /* master */
+
+    if (data.intNum == 33)
+    {
+        kHandler();
+
+
+    }
+    
+    
+
+
 
     
 }
@@ -122,6 +191,10 @@ void intInterupts()
     setInteruptHandeler(45, (unsigned int)irq13);
     setInteruptHandeler(46, (unsigned int)irq14);
     setInteruptHandeler(47, (unsigned int)irq15);
+
+    //custom ints
+    setInteruptHandeler(48, (unsigned int)printToScreen);
+    setInteruptHandeler(49, (unsigned int)turnOnKeyboardCapture);
 
     mapIDT();
 

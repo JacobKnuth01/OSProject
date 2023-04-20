@@ -6,7 +6,6 @@ global switchSegments
 
 switchSegments:
 
-    
     cli
     mov ax, 0x23
     mov ds, ax
@@ -27,6 +26,7 @@ switchSegments:
     
     push dword 0x1B
     push dword 0x0
+    
     iret
 
 

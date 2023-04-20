@@ -39,6 +39,7 @@ void mapIDT();
 void intInterupts();
 void irsHandler(intData data);
 void irq_handler(intData data);
+void customHandler(int num);
 
 
 extern void isr0();
@@ -90,6 +91,9 @@ extern void irq12();
 extern void irq13();
 extern void irq14();
 extern void irq15();
+
+extern void printToScreen();
+extern void turnOnKeyboardCapture();
 
 
 
