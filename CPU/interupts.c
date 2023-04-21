@@ -116,6 +116,8 @@ void customHandler(int num)
         capture = 0;
         place32(0x400000, 0);
         place32(0x400004, 0);
+        
+        
 
     }
 }
