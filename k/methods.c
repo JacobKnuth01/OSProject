@@ -208,3 +208,42 @@ char* flipString(char* s, int len)
     return replacmentS;
     
 }
+
+char* mallocSpot = 0x20000;
+char* malloc(int space)
+{
+    char* temp = mallocSpot;
+    mallocSpot = mallocSpot + space;
+    return temp;
+}
+
+void copyString(char* source, char*destination)
+
+{
+    int x = 0;
+
+    while (source[x] != 0)
+    {
+        destination[x] = source[x];
+        x = x +1;
+    }
+
+    
+}
+
+
+char* stringMalloc(char* word)
+{
+    char x = 1;
+
+     while (word[x-1] != 0)
+     {
+        x = x +1;
+     }
+
+     char* temp = malloc(x);
+
+     copyString(word, temp);
+     return temp;
+     
+}

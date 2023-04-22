@@ -12,7 +12,7 @@ mov ah, 0x02 ;tell bios that we are going to read from the disk
 mov bx, 0x1000 ; store what is read from the disk in that memory location
 mov dl, dl ; what disk should be loded. We want to load this disk, the bios has automaticallhy filled that register with the correct number
 mov cl, 0x02 ;start on sector 2 (we have already loaded the 1st one, boot sector)
-mov al, 120 ;load that many sectors
+mov al, 54 ;load that many sectors
 mov ch, 0x00 ;what cylender
 mov dh, 0x00 ;head number
 int 0x13 ;run the bios interupt

@@ -22,3 +22,8 @@ char* flipString(char* s, int len);
 
 char oneLetterHexIntLookUp(int i);
 char* hexIntToString(int i);
+
+extern char* mallocSpot;
+char* malloc(int space);
+void copyString(char* source, char*destination);
+char* stringMalloc(char* word);

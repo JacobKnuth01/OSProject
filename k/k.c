@@ -15,10 +15,14 @@ void initt()
    intInterupts();
    asm volatile("sti");
    
-   
+   char* word = stringMalloc("test, i hope this works");
+   char* word2 = stringMalloc("yes it will");
 
-   copyToUserSpace(0x5000, 0x0, 0x2000);
-   switchSegments();
+   writeString(word, 0, 0);
+   //writeString(word2, 1, 0);
+
+   //copyToUserSpace(0x5000, 0x0, 0x2000);
+   //switchSegments();
     
    
 
