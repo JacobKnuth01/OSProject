@@ -27,3 +27,8 @@ extern char* mallocSpot;
 char* malloc(int space);
 void copyString(char* source, char*destination);
 char* stringMalloc(char* word);
+
+int lenOfString(char* w);
+
+int lenOfInt(int w);
+int lenOfHexInt(int w);

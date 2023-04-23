@@ -32,24 +32,22 @@ void irsHandler(intData data)
     }
     else
     {
-        if (data.intNum == 2)
-        {
-           int sp;
-           int bp;
-    
-             __asm__ __volatile__("mov %%esp, %%eax" : "=a" (sp));
-             __asm__ __volatile__("mov %%ebp, %%eax" : "=a" (bp));
-
-            writeString(hexIntToString(sp), 5, 5);
-            writeString(hexIntToString(sp), 6, 5);
-        }
+        
         
         writeString("an int was called", 10, 0);
     
-        writeString(intToString(data.intNum), 11, 0);
+        writeString(intToString(data.intNum), 10+1, 0);
     
     
-        writeString(intToString(data.errCode), 12, 0);
+        writeString(intToString(data.errCode), 10+2, 0);
+
+        
+
+        while (1)
+        {
+            /* code */
+        }
+        
     
     }
     
@@ -76,7 +74,14 @@ void customHandler(int num)
         int col = grab32(0x400004);
         int  w = 0x400008;
         int x = 0;
-        char* data;
+        while (grabByte(w) != 0)
+        {
+            w = w +1;
+            x = x +1;
+        }
+        char* data = malloc(x);
+        x = 0;
+        w = 0x400008;
         while (grabByte(w) != 0)
         {
             char c = grabByte(w);
@@ -87,38 +92,30 @@ void customHandler(int num)
         data[x] = 0;
         writeString(data, row, col);
 
-        //clear memory location
-
-        toUserSeg();
-        int* pr = 0x400000;
-        int* pc = 0x400004;
-
-        char* word = 0x400008;
-
-        *pr = 0x0;
-        *pc = 0x0;
         
-        while (x >=0)
-        {
-            word[x] = 0;
-            x = x -1;
-        }
-        toKernSeg();
-    
 
     }
     else if (num == 49)
     {
         capture = 1;
+        
     }
     else if (num == 50)
     {
+        
         capture = 0;
-        place32(0x400000, 0);
-        place32(0x400004, 0);
+        col = -1;
+        row = -1;
+        place32(0x400000, -1);
+        place32(0x400004, -1);
+        
         
         
 
+    }
+    else if (num == 51)
+    {
+        clearScreen();
     }
 }
 
@@ -129,6 +126,7 @@ void irq_handler(intData data)
 
     if (data.intNum == 33)
     {
+        
         kHandler();
 
 
@@ -212,7 +210,7 @@ void intInterupts()
     setInteruptHandeler(48, (unsigned int)printToScreen);
     setInteruptHandeler(49, (unsigned int)turnOnKeyboardCapture);
     setInteruptHandeler(50, (unsigned int)turnOffKeyboardCapture);
-
+    setInteruptHandeler(51, (unsigned int)clearScreenInt);
     mapIDT();
 
 }

@@ -25,7 +25,8 @@ void memory_copy(unsigned char *s, unsigned char *d, int limit)
 char* intToString(int i)
 {
     int x;
-    static char s[20];
+    int leng = lenOfInt(i);
+    char *s = malloc(leng+1);
     int index = 0;
 
     while (i > 0)
@@ -164,7 +165,7 @@ char oneLetterHexIntLookUp(int i)
 char* hexIntToString(int i)
 {
     int x;
-    static char s[20];
+    char* s = malloc(lenOfHexInt(i)+1);
     int index = 0;
 
     while (i > 0)
@@ -193,7 +194,7 @@ char* flipString(char* s, int len)
     
     
     //this will need to be changed
-    static char replacmentS[50+1];
+    char* replacmentS =  malloc(len);
     int i;
     
     for (i =0;i < len;i++)
@@ -231,7 +232,41 @@ void copyString(char* source, char*destination)
     
 }
 
+int lenOfString(char* w)
+{
+    int x = 1;
 
+    while (w[x-1] != 0)
+    {
+        x = x + 1;
+    }
+    return x;
+    
+    
+}
+int lenOfHexInt(int w)
+{
+    int x = 0;
+
+    while (w > 0)
+    {
+        w = w /16;
+        x = x + 1;
+    }
+    return x;
+}
+int lenOfInt(int w)
+{
+    int x = 0;
+
+    while (w > 0)
+    {
+        w = w /10;
+        x = x + 1;
+    }
+    return x;
+    
+}
 char* stringMalloc(char* word)
 {
     char x = 1;

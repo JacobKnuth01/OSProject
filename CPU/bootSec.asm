@@ -2,20 +2,26 @@
 
 ;set the stack 
 
-mov bp, 0x9000
+mov bp, 0x7000
 mov sp, bp
 
 ;load more disk sectors in to ram
 
 mov ah, 0x02 ;tell bios that we are going to read from the disk
 
-mov bx, 0x1000 ; store what is read from the disk in that memory location
+mov bx, 0x8000 ; store what is read from the disk in that memory location
 mov dl, dl ; what disk should be loded. We want to load this disk, the bios has automaticallhy filled that register with the correct number
 mov cl, 0x02 ;start on sector 2 (we have already loaded the 1st one, boot sector)
-mov al, 54 ;load that many sectors
+mov al, 120 ;load that many sectors
 mov ch, 0x00 ;what cylender
 mov dh, 0x00 ;head number
 int 0x13 ;run the bios interupt
+;jc error
+;cmp al, 97    ; BIOS also sets 'al' to the # of sectors read. Compare it.
+;jne error
+
+
+
 
 ;load GDT and switch to 32 bit protected mode
 
@@ -42,6 +48,8 @@ mov fs, ax
 mov gs, ax
 
 
+
+
 ;set the stack up
 mov ebp, 0x90000
 mov esp, ebp
@@ -52,10 +60,11 @@ ltr ax
 
 ;enter kernel
 
-jmp 0x1000 ; jump over to kernel
+jmp 0x8000 ; jump over to kernel
 
 jmp $
-
+error:
+    jmp $
 ;tss
 
 

@@ -102,6 +102,7 @@ global irq15
 global printToScreen
 global turnOnKeyboardCapture
 global turnOffKeyboardCapture
+global clearScreenInt
 
 ; 0: Divide By Zero Exception
 isr0:
@@ -437,4 +438,10 @@ turnOffKeyboardCapture:
     cli
 	push byte 0
 	push byte 50
+	jmp isr_common_stub
+
+clearScreenInt:
+    cli
+	push byte 0
+	push byte 51
 	jmp isr_common_stub

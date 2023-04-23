@@ -3,6 +3,7 @@
         "gpu.h": "c",
         "interupts.h": "c",
         "pipe.h": "c",
-        "methods.h": "c"
+        "methods.h": "c",
+        "stdlib.h": "c"
     }
 }

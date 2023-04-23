@@ -12,6 +12,7 @@ int x = 0;
 void kHandler()
 {
 
+    
     if (capture)
     {
         //maping generated with chatGPT
@@ -71,14 +72,16 @@ void kHandler()
         scan_to_ascii[0x34] = '.';
         scan_to_ascii[0x35] = '/';
         scan_to_ascii[0x36] = 'x'; //right shift
-        scan_to_ascii[0x37] = 'x'; //keypad
+        scan_to_ascii[0x37] = '*'; //keypad
         scan_to_ascii[0x38] = 'x'; //left alt
         scan_to_ascii[0x39] = ' ';
+        scan_to_ascii[0x4E] = '+';
         int scancode = BIn(0x60);
 
+        //writeString(hexIntToString(scancode), 6, 10);
         
         
-        if ( scancode >= 0x0 && scancode <= 0x39)
+        if ( (scancode >= 0x0 && scancode <= 0x39) || scancode == 0x4e)
         {
             //convert to ascii
             char ascii = scan_to_ascii[scancode];
@@ -95,7 +98,7 @@ void kHandler()
             }
 
             //special keys
-            
+            //backspace
             if (scancode == 0x0e)
             {
                 //go back unless its to far
@@ -110,11 +113,23 @@ void kHandler()
                 ascii = ' ';
 
             }
+            
+            
 
 
 
             //display
-            writeChar(ascii, row, col);
+            //if it is enter (i dont want the astrisc)
+
+            if (ascii == 15)
+            {
+                writeChar(' ', row, col);
+            }
+            else
+            {
+                writeChar(ascii, row, col);
+            }
+            
             //save
             placeByte(userWordLocation+x, ascii);
             placeByte(userWordLocation+x+1, 0x0);
@@ -144,6 +159,7 @@ void kHandler()
 
 
     }
+    
     
     
     
