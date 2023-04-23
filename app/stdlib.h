@@ -15,3 +15,4 @@ char oneLetterIntLookUp(int i);
 int lenOfInt(int w);
 char* intToString(int i);
 void clearScreen();
+int lenOfString(char* w);

@@ -90,7 +90,7 @@ char strCMP(char* x, char* y)
 char* mallocSpot = 0x20000;
 char* malloc(int space)
 {
-    char* temp = mallocSpot;
+    char* temp = (char*) mallocSpot;
     mallocSpot = mallocSpot + space;
     return temp;
 }
@@ -113,6 +113,7 @@ int stringToInt(char* word)
 {
     int num = 0;
     int x = 0;
+    char negative = 0;
     while (word[x] != 0)
     {
        
@@ -156,9 +157,17 @@ int stringToInt(char* word)
         {
             num = (num * 10) + 9;
         }
+        else if (word[x] == '-')
+        {
+            negative = 1;
+        }
        
        
         x = x + 1;
+    }
+    if (negative)
+    {
+        return -1 * num;
     }
     return num;
     
@@ -185,48 +194,42 @@ char* stringMalloc(char* word)
 }
 
 char* intToString(int i)
-{
-    
-    int x;
-    int leng = lenOfInt(i);
+{   
+    //negative case
+    char negative = 0;
     if (i < 0)
     {
-        leng = leng + 1;
-
-    }
-    char *s = malloc(leng+1);
-    int index = 0;
-    if (i < 0)
-    {
-        s[0] = '-';
-        index = index + 1;
         i = i * -1;
+        negative = 1;
     }
     
-
-    if (i == 0)
-    {
-        s[0] = '0';
-        s[1] = 0;
-        return s;
-    }
-    
-
-
-
+    char* word = malloc(lenOfInt(i)+1);
+    int x = 0;
     while (i > 0)
     {
-        x = i % 10;
+        word[x] = oneLetterIntLookUp(i % 10);
+        x = x+1;
         i = i /10;
+    }
+    word[x] = 0;
+    word = flipString(word, x);
+    if (negative)
+    {
+        
+        char* w = stringMalloc(lenOfInt(i)+2);
+        w[0] = '-';
+        w[lenOfInt(i)+1] = 0;
+        int x = 0;
 
-        s[index] = oneLetterIntLookUp(x);
-        index = index + 1;
+        while (word[x] != 0)
+        {
+            w[x+1] = word[x];
+            x = x + 1;
+        }
+        return w;
         
     }
-    s[index] = 0x0;
-
-    
-    return flipString(s, index);
+    return word;
 
 
 }
@@ -306,8 +309,8 @@ char* flipString(char* s, int len)
     
     
     
-    //this will need to be changed
-    char* replacmentS =  malloc(len);
+    
+    char* replacmentS =  malloc(len+1);
     int i;
     
     for (i =0;i < len;i++)
@@ -320,5 +323,18 @@ char* flipString(char* s, int len)
     }
     replacmentS[len] = 0x0;
     return replacmentS;
+    
+}
+
+int lenOfString(char* w)
+{
+    int x = 1;
+
+    while (w[x-1] != 0)
+    {
+        x = x + 1;
+    }
+    return x;
+    
     
 }
