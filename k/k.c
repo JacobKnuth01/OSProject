@@ -8,6 +8,8 @@ idt_ptr idt_pointer;
 void initt()
 {
    
+   
+   
    clearScreen();
 
    BOut(0x03D4, 0x0A);
@@ -15,7 +17,7 @@ void initt()
    intInterupts();
    asm volatile("sti");
    copyToUserSpace(0x12000, 0x0, 0x7000);
-   
+   writeString("hello world", 0, 0);
    switchSegments();
 
    
